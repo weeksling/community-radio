@@ -33,6 +33,7 @@ class Timeline {
 			"46l236O7Iv8"
 		];
 
+		this.inRoom = 0;
 		this.callbacks = {};
 		this.djQueue = [];
 		this.currentDj = null;
@@ -126,11 +127,12 @@ class Timeline {
 			
 			for(var user of users) {
 				var id = user._id.toString();
-				if(user.inQueue && this.djQueue.indexOf(id) == -1) {
+				if(user.inQueue && user.inLobby == this.opts._id && this.djQueue.indexOf(id) == -1) {
 					this.djQueue.push(id);
-				} else if(!user.inQueue && this.djQueue.indexOf(id) > -1) {
+				} else if((!user.inQueue || user.inLobby != this.opts._id) && this.djQueue.indexOf(id) > -1) {
 					this.djQueue.splice(this.djQueue.indexOf(id), 1);
-				} else if(!user.inQueue) {
+				} else if(!user.inQueue || user.inLobby != this.opts._id) {
+					
 				}
 			}
 
@@ -222,7 +224,7 @@ class Timeline {
 			.exec((err, user) => {
 				var songs = user.activePlaylist.songs;
 				if(!user.lastSong) {
-					user.lastSong = osngs[0];
+					user.lastSong = songs[0];
 					user.save();
 				} else {
 					user.lastSong = songs[1 + songs.indexOf(user.lastSong)] || songs[0];

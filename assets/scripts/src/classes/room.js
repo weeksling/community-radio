@@ -28,7 +28,7 @@ class Room extends React.Component {
 	}
 
 	_getListeners() {
-		$.get('/radio/listening', (response) => {
+		$.get('/radio/listening/'+window._bootstrapData.lobbyId, (response) => {
 			this.setState({audience: response});
 		});
 	}

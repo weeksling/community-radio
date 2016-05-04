@@ -587,14 +587,14 @@ var Controls = (function (_React$Component) {
 			var _this2 = this;
 
 			if (this.state.inDjQueue) {
-				$.get('/radio/leave', function (response) {
+				$.get('/radio/leave/' + window._bootstrapData.lobbyId, function (response) {
 					_this2.setState({ inDjQueue: false });
 					_this2.socket.emit('leavingQueue');
 				});
 			} else {
 				$.ajax({
 					method: 'POST',
-					url: '/radio/join',
+					url: '/radio/join/' + window._bootstrapData.lobbyId,
 					success: function success(response) {
 						_this2.socket.emit('joiningQueue');
 						_this2.setState({ inDjQueue: true });
@@ -1620,7 +1620,7 @@ var Room = (function (_React$Component) {
 		value: function _getListeners() {
 			var _this2 = this;
 
-			$.get('/radio/listening', function (response) {
+			$.get('/radio/listening/' + window._bootstrapData.lobbyId, function (response) {
 				_this2.setState({ audience: response });
 			});
 		}

@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <!--[if lt IE 7 ]> <html lang="en" class="ie ie6 no-js"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="ie ie7 no-js"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="ie ie8 no-js"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="ie ie9 no-js"> <![endif]-->
+<!--[if IE 7 ]>	<html lang="en" class="ie ie7 no-js"> <![endif]-->
+<!--[if IE 8 ]>	<html lang="en" class="ie ie8 no-js"> <![endif]-->
+<!--[if IE 9 ]>	<html lang="en" class="ie ie9 no-js"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
-    <head>
-        <title>Community Radio - Get tuned in</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="/style/styles.css" />
-        <link type="text/css" rel="stylesheet" href="/style/animate.min.css">
-        <script>
-            window._bootstrapData = {
-                guid: '{{user._id}}',
-                activePlaylist: '{{user.activePlaylist}}',
-                inDjQueue: {{user.inQueue or 'false'}}
-            };
-        </script>
-        <script src="/scripts/libs/modernizr.js"></script>
-        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <!--[if (gte IE 6)&(lte IE 8)]>
-                <script src="/scripts/libs/es5-shim.min.js"></script>
-                <script src="/scripts/libs/es5-sham.min.js"></script>
-                <script src="/scripts/libs/warn-polyfill.js"></script>
-                <script src="/scripts/libs/console-polyfill.js"></script>
-                <link type="text/css" rel="stylesheet" href="/style/ie.css" />
-                <script type="text/javascript" src="/scripts/libs/selectivizr.js"></script>
-        <![endif]-->
-    </head>
-    <body>
-        {% if isRadio %}
+	<head>
+		<title>Community Radio - Get tuned in</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link type="text/css" rel="stylesheet" href="/style/styles.css" />
+		<link type="text/css" rel="stylesheet" href="/style/animate.min.css">
+		<script>
+			window._bootstrapData = {
+				guid: '{{user._id}}',
+				activePlaylist: '{{user.activePlaylist}}',
+				inDjQueue: {{user.inQueue or 'false'}}
+			};
+		</script>
+		<script src="/scripts/libs/modernizr.js"></script>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		<!--[if (gte IE 6)&(lte IE 8)]>
+				<script src="/scripts/libs/es5-shim.min.js"></script>
+				<script src="/scripts/libs/es5-sham.min.js"></script>
+				<script src="/scripts/libs/warn-polyfill.js"></script>
+				<script src="/scripts/libs/console-polyfill.js"></script>
+				<link type="text/css" rel="stylesheet" href="/style/ie.css" />
+				<script type="text/javascript" src="/scripts/libs/selectivizr.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		{% if isRadio %}
 
-            <header>
-                <a href="/" class="header-logo"><img src="images/logo.png" /></a>
-                <ul class="header-navigation">
-                    {% if user %}
-                        {% if isRadio %}
-                        <li>
-                            <div data-react-component="Playlists" id="playlistsWrapper"></div>
-                        </li>
-                        {% endif %}
-                        <li><a href="/settings">Settings</a></li>
-                        <li><a href="/logout">Logout</a></li>
-                    {% else %}
-                        <li><a href="/">Login</a></li>
-                        <li><a href="/register">Register</a></li>
-                    {% endif %}
-                </ul>
-                {% if isRadio %}
-                    <div data-react-component="Controls" id="controls"></div>
-                {% endif %}
-            </header>
+			<header>
+				<a href="/" class="header-logo"><img src="images/logo.png" /></a>
+				<ul class="header-navigation">
+					{% if user %}
+						{% if isRadio %}
+						<li>
+							<div data-react-component="Playlists" id="playlistsWrapper"></div>
+						</li>
+						{% endif %}
+						<li><a href="/settings">Settings</a></li>
+						<li><a href="/logout">Logout</a></li>
+					{% else %}
+						<li><a href="/">Login</a></li>
+						<li><a href="/register">Register</a></li>
+					{% endif %}
+				</ul>
+				{% if isRadio %}
+					<div data-react-component="Controls" id="controls"></div>
+				{% endif %}
+			</header>
 
-        {% endif %}
+		{% endif %}
 
-        {% block content %}{% endblock %}
+		{% block content %}{% endblock %}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
-        <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-        <script src="/scripts/dist/app.js"></script>
-    </body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+		<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+		<script src="/scripts/dist/app.js"></script>
+	</body>
 </html>

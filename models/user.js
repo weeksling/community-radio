@@ -41,6 +41,10 @@ const mongoose = require('mongoose'),
 			type: ObjectId,
 			ref: 'Playlist'
 		},
+		inLobby: {
+			type: String,
+			expires: '8h'
+		},
 		inQueue: {
 			type: Boolean,
 			expires: '8h',

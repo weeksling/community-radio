@@ -989,4 +989,19 @@ body.sidebar-nav-open {
     visibility: visible;
     opacity: 1; }
 
+.old-style {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; }
+  .old-style #playerWrapper {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+
 /*# sourceMappingURL=styles.css.map */

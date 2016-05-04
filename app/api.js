@@ -30,9 +30,9 @@ module.exports = () => {
 		.delete('/removeAvatar', isAuthenticated, controllers.user.removeAvatar)
 
 		// Radio api
-		.get('/radio/listening', controllers.radio.listening)
-		.post('/radio/join', controllers.radio.joinQueue)
-		.get('/radio/leave', controllers.radio.leaveQueue)
+		.get('/radio/listening/:lobbyId', controllers.radio.listening)
+		.post('/radio/join/:lobbyId', controllers.radio.joinQueue)
+		.get('/radio/leave/:lobbyId', controllers.radio.leaveQueue)
 		.get('/radio/song/:lobbyId', controllers.radio.getSong)
 
 		// Rooms
@@ -53,7 +53,7 @@ module.exports = () => {
 		.get('/media/details/:id', controllers.youtube.details)
 		.get('/media/search/:keyword', controllers.youtube.search)
 
-		.get('/nextSong', controllers.radio.forceNext);
+		.get('/nextSong/:lobbyId', controllers.radio.forceNext);
 
 
 	return app;

@@ -11,8 +11,6 @@ const Session = require('../models/session'),
 
 const Radio = {
 
-	inRoom: 0,
-
 	getSong: (req, res) => {
 		var timeline = resources.lobbys[req.params.lobbyId].timeline;
 		res.send({
@@ -59,16 +57,16 @@ const Radio = {
 
 	forceNext: (req, res) => {
 		if(req.session && req.session.passport && req.session.passport.user && req.session.passport.user.username == 'simon') {
-			// Timeline._getNextSong();
+			resources.lobbys[req.params.lobbyId].timeline._getNextSong();
 			res.send(true);
 		} else {
 			res.send('your on not simon');
 		}
 	},
 
-	userLeavingRoom: (socket, context, timeline) => {
-		context.inRoom--;
-		if(context.inRoom === 0) {
+	userLeavingRoom: (socket, context, timeline, lobbyId) => {
+		timeline.inRoom--;
+		if(timeline.inRoom === 0) {
 			timeline.noUsers();
 		}
 		if(!socket.id) return;
@@ -87,6 +85,7 @@ const Radio = {
 						User.findOne({_id: session.passport.user._id}, (err, user) => {
 							if(!user.isConnected && user.inQueue) {
 								user.inQueue = false;
+								user.inLobby = false;
 								user.save((err) => {
 									Events.emit('leavingQueue', user);
 								});
@@ -98,11 +97,11 @@ const Radio = {
 		});
 	},
 
-	userEnteringRoom: (socket, context, timeline) => {
+	userEnteringRoom: (socket, context, timeline, lobbyId) => {
 		if(!timeline.running) {
 			timeline.hasUsers();
 		}
-		context.inRoom++;
+		timeline.inRoom++;
 		if(!socket.id) return;
 		Session.findOne({
 			_socketId: socket.id
@@ -112,6 +111,7 @@ const Radio = {
 			if(!session && !session.passport && !session.passport.user) return;
 			User.findOne({_id: session.passport.user._id}, (err, user) => {
 				user.isConnected = true;
+				user.inLobby = lobbyId;
 				user.save();
 			});
 		});
@@ -120,7 +120,7 @@ const Radio = {
 	listening: (req, res) => {
 
 		var clientIds = [];
-		for (var id in io.of('/radio').connected) {
+		for (var id in io.of('/radio/'+req.params.lobbyId).connected) {
 			clientIds.push(id);
 		}
 
@@ -152,13 +152,12 @@ const Radio = {
 
 };
 
-Events.on('socketConnect', (socket, timeline) => {
-	console.log("user has entered room");
-	Radio.userEnteringRoom(socket, Radio, timeline);
+Events.on('socketConnect', (socket, timeline, lobbyId) => {
+	Radio.userEnteringRoom(socket, Radio, timeline, lobbyId);
 });
 
-Events.on('socketDisconnect', (socket, timeline) => {
-	Radio.userLeavingRoom(socket, Radio, timeline);
+Events.on('socketDisconnect', (socket, timeline, lobbyId) => {
+	Radio.userLeavingRoom(socket, Radio, timeline, lobbyId);
 });
 
 module.exports = Radio;

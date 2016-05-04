@@ -5,6 +5,7 @@ const cookie = require('cookie'),
 	resources = require('./resources'),
 	radio = require('../controllers/radio'),
 	Timeline = require('../app/timeline'),
+	Emitter = require('../app/events').emitter,
 	io = resources.io;
 
 resources.socketChannels = {};
@@ -25,10 +26,12 @@ module.exports = {
 
 			// Audience events
 			channel.emit('listening');
-			Events = require('../app/events').emitter.emit('socketConnect', socket, timeline);
+			Emitter.emit('socketConnect', socket, timeline, id);
+			events.emit('socketConnect', socket, timeline, id);
 			socket.on('disconnect', () => {
 				channel.emit('notListening');
-				Events = require('../app/events').emitter.emit('socketDisconnect', socket, timeline);
+				Emitter.emit('socketDisconnect', socket, timeline);
+				events.emit('socketDisconnect', socket, timeline);
 				timeline.off('newSong', onNewSong);
 			});
 

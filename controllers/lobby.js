@@ -5,13 +5,16 @@ const Room = require('../models/room'),
 	resources = require('../app/resources'),
 	Timeline = require('../app/timeline'),
 	Events = require('../app/events').constructor,
+	Emitter = require('../app/events').emitter,
 	sockets = require('../app/sockets');
 
 const Lobby = {
 
 	setupLobby: (id) => {
 		resources.lobbys[id] = {};
-		resources.lobbys[id].timeline = new Timeline();
+		resources.lobbys[id].timeline = new Timeline({
+			_id: id
+		});
 		var emitter = resources.lobbys[id].events = new Events();
 		emitter.on('socketConnect', (socket) => {
 			emitter.emit('queueChange');
@@ -19,10 +22,10 @@ const Lobby = {
 		emitter.on('newSong', (id, dj) => {
 			emitter.emit('queueChange');
 		});
-		emitter.on('joiningQueue', (user) => {
+		Emitter.on('joiningQueue', (user) => {
 			emitter.emit('queueChange');
 		});
-		emitter.on('leavingQueue', (user) => {
+		Emitter.on('leavingQueue', (user) => {
 			emitter.emit('queueChange');
 		});
 		resources.lobbys[id].socket = sockets.lobby(id);
