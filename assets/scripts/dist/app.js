@@ -1111,8 +1111,26 @@ var MyRooms = (function (_React$Component) {
 			});
 		}
 	}, {
+		key: 'deleteRoom',
+		value: function deleteRoom(id) {
+			var _this3 = this;
+
+			$.ajax({
+				url: '/rooms/' + id,
+				method: 'DELETE',
+				success: function success(rooms) {
+					_this3.getRooms();
+				},
+				error: function error(err) {
+					console.log(err);
+				}
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
+			var _this4 = this;
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -1130,8 +1148,14 @@ var MyRooms = (function (_React$Component) {
 							{ key: 'rooms-' + i },
 							_react2.default.createElement(
 								'a',
-								{ href: "/lobby/" + room._id + "/edit" },
+								{ href: "/lobby/" + room._id },
 								room.name
+							),
+							' - ',
+							_react2.default.createElement(
+								'a',
+								{ href: '#', onClick: _this4.deleteRoom.bind(_this4, room._id) },
+								'Delete Room'
 							)
 						);
 					})

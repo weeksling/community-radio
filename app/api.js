@@ -39,9 +39,7 @@ module.exports = () => {
 		.post('/rooms', controllers.rooms.create)
 		.get('/rooms', controllers.rooms.get)
 		.get('/rooms/list', controllers.rooms.list)
-		// Create
-		// Edit
-		// Delete
+		.delete('/rooms/:id', controllers.rooms.delete)
 
 		// Playlist api
 		.get('/playlists/:guid', controllers.playlists.list)

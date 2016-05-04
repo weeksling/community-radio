@@ -18,11 +18,29 @@ module.exports = {
 			});
 	},
 
+	delete: (req, res) => {
+		Room.findOne({_id: req.params.id}, (err, room) => {
+			if(room.owner = req.session.passport.user._id) {
+				room.remove((err) => {
+					if (!err) {
+						res.send(true);
+					} else {
+						res.status(400);
+						res.send(err);
+					}
+				});
+			} else {
+				res.status(403);
+				res.send('you do not own this room');
+			}
+		});
+	},
+
 	list: (req, res) => {
 		// To Do: add pagination
 		Room.find({}, (err, rooms) => {
 			if(err) {
-				res.status(400);
+				res.status(400) ;
 				res.send(err);
 			} else {
 				res.send(rooms);
