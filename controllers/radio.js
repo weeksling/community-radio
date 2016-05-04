@@ -4,9 +4,8 @@ const Session = require('../models/session'),
 	cookie = require('cookie'),
 	cookieParser = require('cookie-parser'),
 	User = require('../models/user'),
-	Timeline = require('../app/timeline'),
 	resources = require('../app/resources'),
-	Events = require('../app/events'),
+	Events = require('../app/events').emitter,
 	sessionStore = resources.sessionStore,
 	io = resources.io;
 
@@ -15,10 +14,11 @@ const Radio = {
 	inRoom: 0,
 
 	getSong: (req, res) => {
+		var timeline = resources.lobbys[req.params.lobbyId].timeline;
 		res.send({
-			id: Timeline.playing,
-			elapsed: Timeline.elapsed,
-			dj: Timeline.currentDj
+			id: timeline.playing,
+			elapsed: timeline.elapsed,
+			dj: timeline.currentDj
 		});
 	},
 
@@ -59,18 +59,17 @@ const Radio = {
 
 	forceNext: (req, res) => {
 		if(req.session && req.session.passport && req.session.passport.user && req.session.passport.user.username == 'simon') {
-			Timeline._getNextSong();
+			// Timeline._getNextSong();
 			res.send(true);
 		} else {
 			res.send('your on not simon');
 		}
-
 	},
 
-	userLeavingRoom: (socket, context) => {
+	userLeavingRoom: (socket, context, timeline) => {
 		context.inRoom--;
 		if(context.inRoom === 0) {
-			Timeline.noUsers();
+			timeline.noUsers();
 		}
 		if(!socket.id) return;
 		Session.findOne({
@@ -99,9 +98,9 @@ const Radio = {
 		});
 	},
 
-	userEnteringRoom: (socket, context) => {
-		if(!Timeline.running) {
-			Timeline.hasUsers();
+	userEnteringRoom: (socket, context, timeline) => {
+		if(!timeline.running) {
+			timeline.hasUsers();
 		}
 		context.inRoom++;
 		if(!socket.id) return;
@@ -153,12 +152,13 @@ const Radio = {
 
 };
 
-Events.on('socketConnect', (socket) => {
-	Radio.userEnteringRoom(socket, Radio);
+Events.on('socketConnect', (socket, timeline) => {
+	console.log("user has entered room");
+	Radio.userEnteringRoom(socket, Radio, timeline);
 });
 
-Events.on('socketDisconnect', (socket) => {
-	Radio.userLeavingRoom(socket, Radio);
+Events.on('socketDisconnect', (socket, timeline) => {
+	Radio.userLeavingRoom(socket, Radio, timeline);
 });
 
 module.exports = Radio;

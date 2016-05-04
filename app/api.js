@@ -7,7 +7,8 @@ const controllers = {
 		user: require('../controllers/user'),
 		radio: require('../controllers/radio'),
 		playlists: require('../controllers/playlists'),
-		youtube: require('../controllers/youtube')
+		youtube: require('../controllers/youtube'),
+		rooms: require('../controllers/rooms')
 	};
 
 const isAuthenticated = (req, res, next) => {
@@ -32,7 +33,15 @@ module.exports = () => {
 		.get('/radio/listening', controllers.radio.listening)
 		.post('/radio/join', controllers.radio.joinQueue)
 		.get('/radio/leave', controllers.radio.leaveQueue)
-		.get('/radio/song', controllers.radio.getSong)
+		.get('/radio/song/:lobbyId', controllers.radio.getSong)
+
+		// Rooms
+		.post('/rooms', controllers.rooms.create)
+		.get('/rooms', controllers.rooms.get)
+		.get('/rooms/list', controllers.rooms.list)
+		// Create
+		// Edit
+		// Delete
 
 		// Playlist api
 		.get('/playlists/:guid', controllers.playlists.list)

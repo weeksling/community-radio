@@ -9,7 +9,7 @@ class Player extends React.Component {
 
 		super(props);
 		
-		this.socket = io(window.location.href.split("/")[0]+'//'+window.location.href.split("/")[2]+'/radio');
+		this.socket = io(window.location.href.split("/")[0]+'//'+window.location.href.split("/")[2]+'/lobby/'+window._bootstrapData.lobbyId);
 
 		this.state = {
 			loaded: true
@@ -26,7 +26,7 @@ class Player extends React.Component {
 		// Polling fallback
 		setTimeout(() => {
 			if(!this.made) {
-				$.get('/radio/song', (data) => {
+				$.get('/radio/song/'+window._bootstrapData.lobbyId, (data) => {
 					console.log(data);
 					if(!this.made) this.makePlayer(data.id, data.elapsed);
 				});
@@ -68,7 +68,7 @@ class Player extends React.Component {
 		setTimeout(() => {
 			if(this.player.getPlayerState() !== 1) {
 				console.log('state is not playing');
-				$.get('/radio/song', (data) => {
+				$.get('/radio/song/'+window._bootstrapData.lobbyId, (data) => {
 					console.log(data); // elapsed is wrong
 					this.player.loadVideoById(data.id);
 					this.player.playVideo();

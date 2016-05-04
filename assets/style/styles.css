@@ -78,7 +78,7 @@ input, select {
   -o-transition: background 0.25s ease-in-out;
   transition: background 0.25s ease-in-out; }
 
-.animate-all, a, button, .btn, .btn-secondary, form .file-upload .upload, form .file-upload .remove, #playlistsWrapper .playlists-window, #playlistsWrapper .playlists-window .playlists-list-wrapper li button, #playlistsWrapper .playlists-window .song-list li button, header .header-navigation li a, header #controls .controls-wrapper > button, header #controls a, header .open-playlists {
+.animate-all, a, button, .btn, .btn-secondary, form .file-upload .upload, form .file-upload .remove, #playlistsWrapper .playlists-window, #playlistsWrapper .playlists-window .playlists-list-wrapper li button, #playlistsWrapper .playlists-window .song-list li button, header button#open-sidebar-nav, .header .header-navigation li a, .header #controls .controls-wrapper > button, .header #controls a, .header .open-playlists, #page-overlay-shadow, #page-container, header {
   -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
   -ms-transition: all 0.25s ease-in-out;
@@ -99,12 +99,14 @@ input, select {
   -o-transition: opacity 0.25s fade-in-out;
   transition: opacity 0.25s fade-in-out; }
 
-body {
-  background: #272727;
-  background: -moz-radial-gradient(center, ellipse cover, #272727 0%, #151515 100%);
-  background: -webkit-radial-gradient(center, ellipse cover, #272727 0%, #151515 100%);
-  background: radial-gradient(ellipse at center, #272727 0%, #151515 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#272727', endColorstr='#151515',GradientType=1 ); }
+.theme-white {
+  background: #fff;
+  color: #434343; }
+  .theme-white a {
+    color: #fc961b;
+    text-decoration: none; }
+  .theme-white h1, .theme-white h2, .theme-white h3 {
+    color: #434343; }
 
 img {
   max-width: 100%; }
@@ -117,7 +119,7 @@ button {
   border: 0px;
   outline: none; }
 
-.clearfix:after, #playlistsWrapper .playlists-window .playlists-list-wrapper li:after, #playlistsWrapper .playlists-window .song-list li:after, #playlistsWrapper .playlists-window .search ul li:after, header:after, header .header-navigation:after {
+.clearfix:after, #playlistsWrapper .playlists-window .playlists-list-wrapper li:after, #playlistsWrapper .playlists-window .song-list li:after, #playlistsWrapper .playlists-window .search ul li:after, header:after, .header:after, .header .header-navigation:after {
   visibility: hidden;
   display: block;
   font-size: 0;
@@ -125,13 +127,13 @@ button {
   clear: both;
   height: 0; }
 
-.clearfix, #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .search ul li, header, header .header-navigation {
+.clearfix, #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .search ul li, header, .header, .header .header-navigation {
   display: inline-block; }
 
-* html .clearfix, * html #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .playlists-list-wrapper * html li, * html #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .song-list * html li, * html #playlistsWrapper .playlists-window .search ul li, #playlistsWrapper .playlists-window .search ul * html li, * html header, * html header .header-navigation, header * html .header-navigation {
+* html .clearfix, * html #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .playlists-list-wrapper * html li, * html #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .song-list * html li, * html #playlistsWrapper .playlists-window .search ul li, #playlistsWrapper .playlists-window .search ul * html li, * html header, * html .header, * html .header .header-navigation, .header * html .header-navigation {
   height: 1%; }
 
-.clearfix, #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .search ul li, header, header .header-navigation {
+.clearfix, #playlistsWrapper .playlists-window .playlists-list-wrapper li, #playlistsWrapper .playlists-window .song-list li, #playlistsWrapper .playlists-window .search ul li, header, .header, .header .header-navigation {
   display: block; }
 
 .align-center {
@@ -179,6 +181,13 @@ button {
   .vertical-padding-small-bottom {
     padding-bottom: 20px; }
 
+.vertical-margin {
+  margin: 20px 0; }
+  .vertical-margin-top {
+    margin-top: 20px; }
+  .vertical-margin-bottom {
+    margin-bottom: 20px; }
+
 .central-padding {
   padding: 10% 0; }
   .central-padding-small {
@@ -189,6 +198,9 @@ button {
 
 .force-inline {
   display: inline !important; }
+
+.fill-height {
+  height: 100%; }
 
 body, a, button {
   font-family: 'Open Sans', sans-serif;
@@ -353,20 +365,21 @@ form .file-upload {
     left: -9999px;
     cursor: pointer; }
 
-.column {
+.column, header {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%; }
-  .column::after {
+  max-width: 100%;
+  margin: 20px; }
+  .column::after, header::after {
     clear: both;
     content: "";
     display: table; }
-  .column.column-restricted {
+  .column.column-restricted, header.column-restricted {
     max-width: 930px;
     margin: 0 auto; }
     @media (max-width: 950px) {
-      .column.column-restricted {
+      .column.column-restricted, header.column-restricted {
         padding-left: 20px;
         padding-right: 20px; } }
   .column-relative {
@@ -416,7 +429,8 @@ form .file-upload {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 31.76157%; }
+    width: 31.76157%;
+    padding: 10px; }
     .column1-3:last-child {
       margin-right: 0; }
     @media (max-width: 900px) {
@@ -436,7 +450,8 @@ form .file-upload {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 65.88078%; }
+    width: 65.88078%;
+    padding: 10px; }
     .column2-3:last-child {
       margin-right: 0; }
     @media (max-width: 900px) {
@@ -455,7 +470,8 @@ form .file-upload {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 23.23176%; }
+    width: 23.23176%;
+    padding: 10px; }
     .column1-4:last-child {
       margin-right: 0; }
     @media (max-width: 900px) {
@@ -474,7 +490,8 @@ form .file-upload {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 74.41059%; }
+    width: 74.41059%;
+    padding: 10px; }
     .column3-4:last-child {
       margin-right: 0; }
     @media (max-width: 900px) {
@@ -770,25 +787,73 @@ body.playlist-open #playlistsWrapper .playlists-window {
   padding: 20px; }
 
 header {
+  height: 75px;
+  padding: 12px 0 17px;
+  margin: 10px 20px 20px;
+  border-bottom: 1px solid #fff; }
+  header button#open-sidebar-nav {
+    float: left;
+    font-size: 18px;
+    line-height: 40px; }
+    header button#open-sidebar-nav i {
+      font-size: 22px; }
+    header button#open-sidebar-nav:hover {
+      color: #fc961b; }
+  header #lobby-search {
+    width: auto;
+    display: inline-block;
+    float: left;
+    position: relative;
+    padding: 8px;
+    margin-left: 20px; }
+    header #lobby-search input {
+      width: 220px;
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 20px;
+      padding: 5px;
+      background: #404040;
+      border-radius: 15px;
+      box-shadow: inset 3px 3px 2px -2px rgba(0, 0, 0, 0.3);
+      -webkit-box-shadow: inset 3px 3px 2px -2px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: inset 3px 3px 2px -2px rgba(0, 0, 0, 0.3);
+      -o-box-shadow: inset 3px 3px 2px -2px rgba(0, 0, 0, 0.3);
+      color: #fff !important;
+      padding-left: 35px; }
+    header #lobby-search button {
+      color: #fff;
+      position: absolute;
+      left: 15px;
+      top: 10px;
+      font-size: 15px; }
+  header img.logo-inline {
+    float: right;
+    height: 100%;
+    width: auto; }
+
+body.sidebar-nav-open button#open-sidebar-nav i:before {
+  content: "\f00d"; }
+
+.header {
   width: 100%;
   position: fixed;
   top: 0;
   height: 80px;
   background: #000;
   z-index: 10; }
-  header .header-logo {
+  .header .header-logo {
     float: left;
     display: block;
     padding: 15px; }
-    header .header-logo img {
+    .header .header-logo img {
       height: 50px; }
-  header .header-navigation {
+  .header .header-navigation {
     float: right;
     list-style: none; }
-    header .header-navigation li {
+    .header .header-navigation li {
       float: left;
       display: inline-block; }
-      header .header-navigation li a {
+      .header .header-navigation li a {
         display: block;
         line-height: 60px;
         padding: 10px 15px;
@@ -796,15 +861,15 @@ header {
         color: #000;
         text-decoration: none;
         text-transform: uppercase; }
-        header .header-navigation li a:hover {
+        .header .header-navigation li a:hover {
           color: #fc961b; }
-      header .header-navigation li:last-child a {
+      .header .header-navigation li:last-child a {
         background: #fc961b;
         color: #fff; }
-  header #controls {
+  .header #controls {
     float: right;
     margin: 10px; }
-    header #controls .controls-wrapper > button {
+    .header #controls .controls-wrapper > button {
       vertical-align: top;
       display: inline-block;
       margin-top: 10px;
@@ -812,15 +877,15 @@ header {
       line-height: 40px;
       padding-left: 15px;
       margin-left: 10px; }
-      header #controls .controls-wrapper > button:hover {
+      .header #controls .controls-wrapper > button:hover {
         color: #fc961b; }
-    header #controls a:hover {
+    .header #controls a:hover {
       color: #fc961b; }
-    header #controls .volume-wrap {
+    .header #controls .volume-wrap {
       margin-top: 10px;
       padding-left: 10px;
       margin-left: 10px; }
-  header .open-playlists {
+  .header .open-playlists {
     display: block;
     line-height: 60px;
     padding: 10px 15px;
@@ -828,7 +893,7 @@ header {
     color: #000;
     text-decoration: none;
     text-transform: uppercase; }
-    header .open-playlists:hover {
+    .header .open-playlists:hover {
       color: #fc961b; }
 
 body {
@@ -849,44 +914,45 @@ p.sub-heading {
 
 #page-container {
   position: relative;
-  height: 100%;
-  width: 100%; }
+  height: 60%;
+  min-height: 80%; }
 
 .sidebar-nav {
-  background: #3c3933;
+  background: #fff;
   font-family: Arial, Helvetics, sans-serif;
-  width: 240px;
+  width: 320px;
+  overflow: auto;
   height: 100%;
   top: 0;
-  z-index: 1000;
+  z-index: 20;
   position: fixed;
-  left: -240px;
+  left: -320px;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
-  transition: all 0.3s ease; }
+  transition: all 0.3s ease;
+  padding-top: 30px; }
+  .sidebar-nav #close-sidebar-nav {
+    position: absolute;
+    top: 0;
+    color: #fff;
+    display: block;
+    width: 100%;
+    height: 30px;
+    background: #fc961b;
+    text-align: right; }
   .sidebar-nav h3 {
-    color: #cbbfad;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 15px 20px;
-    margin: 0;
-    background: #282522;
-    height: 16px; }
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+    color: #fff;
+    background: #000;
+    font-size: 18px;
+    font-weight: 500; }
   .sidebar-nav a {
     display: block;
-    /* drops the nav vertically*/
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
+    color: #000;
     text-decoration: none;
-    border-top: 1px solid #56544e;
-    border-bottom: 1px solid #312e2a;
-    padding: 14px; }
-    .sidebar-nav a:hover {
-      background: #00A287; }
-    .sidebar-nav a:active {
-      background: #454f5c;
-      color: #fff; }
+    padding: 10px; }
 
 body {
   overflow-x: hidden;
@@ -896,9 +962,31 @@ body {
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease; }
 
+#page-overlay-shadow {
+  position: fixed;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 10; }
+
 body.sidebar-nav-open {
-  left: 240px; }
+  height: 100%;
+  overflow: hidden; }
   body.sidebar-nav-open .sidebar-nav {
     left: 0; }
+  body.sidebar-nav-open #page-container, body.sidebar-nav-open header {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px); }
+  body.sidebar-nav-open #page-overlay-shadow {
+    visibility: visible;
+    opacity: 1; }
 
 /*# sourceMappingURL=styles.css.map */

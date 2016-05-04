@@ -69,7 +69,6 @@ resources.dirname = __dirname;
 // Load app components
 require('./app/nunjucks')();
 require('./app/passport')();
-require('./app/sockets')();
 require('./app/routes')();
 require('./app/api')();
 

@@ -128,9 +128,9 @@ class Input extends React.Component {
 			return (
 				<div className="input-wrapper">
 					<select ref="form-element" {...this.props.attributes} autoComplete={this.props.attributes.autoComplete} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} className={this.state.valid ? this.props.attributes.className : this.props.attributes.className+' error'} >
-						<option disabled>{this.props.attributes.placeholder}</option>
+						<option disabled selected>{this.props.attributes.placeholder}</option>
 						{this.props.options.map(_.bind(function(option, i) {
-							return <option key={'input-option-'+i} value={option.value}>{option.label}</option>
+							return <option key={'input-option-'+i} value={option.value} disabled={option.disabled}>{option.label}</option>
 						}, this))}
 					</select>
 					{(function(){

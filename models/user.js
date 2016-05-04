@@ -33,6 +33,10 @@ const mongoose = require('mongoose'),
 			type: ObjectId,
 			ref: 'Playlist'
 		}],
+		rooms: [{
+			type: ObjectId,
+			ref: 'Rooms'
+		}],
 		activePlaylist: {
 			type: ObjectId,
 			ref: 'Playlist'

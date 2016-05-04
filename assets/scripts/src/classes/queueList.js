@@ -11,7 +11,7 @@ class QueueList extends React.Component {
 			current: null
 		}
 
-		this.socket = io(window.location.href.split("/")[0]+'//'+window.location.href.split("/")[2]+'/radio');
+		this.socket = io(window.location.href.split("/")[0]+'//'+window.location.href.split("/")[2]+'/lobby/'+window._bootstrapData.lobbyId);
 		
 		this._bindEvents();
 

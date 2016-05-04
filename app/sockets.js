@@ -5,71 +5,81 @@ const cookie = require('cookie'),
 	resources = require('./resources'),
 	radio = require('../controllers/radio'),
 	Timeline = require('../app/timeline'),
-	Events = require('./events'),
 	io = resources.io;
 
-module.exports = () => {
+resources.socketChannels = {};
 
-	io.of('/radio').on('connection', (socket) => {
+module.exports = {
 
-		var onNewSong = (id, dj) => {
-			socket.emit('newSong', {id,dj});
-			Events.emit('newSong', id, dj);
-		};
+	lobby: (id) => {
+		if(resources.socketChannels[id]) return;
+		var channel = io.of('/lobby/'+id),
+			timeline = resources.lobbys[id].timeline,
+			events = resources.lobbys[id].events;
+		channel.on('connection', (socket) => {
+			
+			var onNewSong = (id, dj) => {
+				socket.emit('newSong', {id,dj});
+				events.emit('newSong', id, dj);
+			};
 
-		// Audience events
-		io.of('/radio').emit('listening');
-		Events.emit('socketConnect', socket);
-		socket.on('disconnect', () => {
-			io.of('/radio').emit('notListening');
-			Events.emit('socketDisconnect', socket);
-			Timeline.off('newSong', onNewSong);
+			// Audience events
+			channel.emit('listening');
+			Events = require('../app/events').emitter.emit('socketConnect', socket, timeline);
+			socket.on('disconnect', () => {
+				channel.emit('notListening');
+				Events = require('../app/events').emitter.emit('socketDisconnect', socket, timeline);
+				timeline.off('newSong', onNewSong);
+			});
+
+			// Radio events - passes current song and duration to client on connection
+			if(timeline.currentDj && timeline.playing) {
+				User.findOne({_id: timeline.currentDj}, (err, user) => {
+					socket.emit('songDetails', {
+						id: timeline.playing,
+						elapsed: timeline.elapsed,
+						dj: user
+					});
+				});
+			} else if(timeline.playing) {
+				socket.emit('songDetails', {
+					id: timeline.playing,
+					elapsed: timeline.elapsed,
+					dj: timeline.currentDj
+				});
+			}
+			
+			timeline.on('newSong', onNewSong);
+
 		});
 
-		// Radio events - passes current song and duration to client on connection
-		if(Timeline.currentDj && Timeline.playing) {
-			User.findOne({_id: Timeline.currentDj}, (err, user) => {
-				socket.emit('songDetails', {
-					id: Timeline.playing,
-					elapsed: Timeline.elapsed,
-					dj: user
-				});
-			});
-		} else if(Timeline.playing) {
-			socket.emit('songDetails', {
-				id: Timeline.playing,
-				elapsed: Timeline.elapsed,
-				dj: Timeline.currentDj
-			});
-		}
-		
-		Timeline.on('newSong', onNewSong);
-
-	});
-
-	// Map session to socket client and store client id in session store
-	io.of('/radio').use((socket, next) => {
-		var handshake = socket.request;
-		if(handshake.headers.cookie) {
-			var cookieData = cookie.parse(handshake.headers.cookie),
-			sessionId = cookieParser.signedCookie(cookieData['connect.sid'], 'itsAMassiveSecret');
-			Session.findOne({_id: sessionId}, (err, session) => {
-				if(!session) return;
-				var sessionData = JSON.parse(session.session);
-				if(!sessionData || !sessionData.passport || !sessionData.passport.user) return;
-				session._socketId = socket.id;
-				session.save((err) => {
-					User.findOne({_id: sessionData.passport.user._id}, (err, user) => { // Save to user model so we can access it there for mongoose middleware
-						user._socketId = session._socketId;
-						user.save((err) => {
-							next();
+		// Map session to socket client and store client id in session store
+		channel.use((socket, next) => {
+			var handshake = socket.request;
+			if(handshake.headers.cookie) {
+				var cookieData = cookie.parse(handshake.headers.cookie),
+				sessionId = cookieParser.signedCookie(cookieData['connect.sid'], 'itsAMassiveSecret');
+				Session.findOne({_id: sessionId}, (err, session) => {
+					if(!session) return;
+					var sessionData = JSON.parse(session.session);
+					if(!sessionData || !sessionData.passport || !sessionData.passport.user) return;
+					session._socketId = socket.id;
+					session.save((err) => {
+						User.findOne({_id: sessionData.passport.user._id}, (err, user) => { // Save to user model so we can access it there for mongoose middleware
+							user._socketId = session._socketId;
+							user.save((err) => {
+								next();
+							});
 						});
 					});
 				});
-			});
-		} else {
-			next();
-		}
-	});
+			} else {
+				next();
+			}
+		});
+
+		return channel;
+
+	}
 
 }

@@ -2,23 +2,18 @@
 
 {% block content %}
 
-1. Search for lobby's?
-2. Visible lobby public
-3. Your lobby's
-
-Header - logo left - search - some nav link for lobby's, settings, logout, playlists (what else is in navigation?)
-An expandable menu with more stuff like new lobby, other links? - decide all links
-
-Logo at top of slide out menu
-
-Select random
-
-Genres?
-
-Some section in the middle maybe with filters?
-
+<div class="column">
+	<div class="column1-4 theme-white" style="margin-top: 10px;">
+		Menu, category, filter, search etc
+	</div>
+	<div class="column3-4">
+		<div class="theme-white">
+			<div data-react-component="RoomList"></div>
+		</div>
+		<div class="theme-white vertical-margin-top">
+			<div data-react-component="MyRooms"></div>
+			<div data-react-component="CreateRoom"></div>
+		</div>
+	</div>
+</div>
 {% endblock %}
-
-Menu on left with expand icon
-
-Need a push left menu?

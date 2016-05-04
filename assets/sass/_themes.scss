@@ -1,7 +1,11 @@
-body {
-	background: #272727;
-	background: -moz-radial-gradient(center, ellipse cover,  #272727 0%, #151515 100%);
-	background: -webkit-radial-gradient(center, ellipse cover,  #272727 0%,#151515 100%);
-	background: radial-gradient(ellipse at center,  #272727 0%,#151515 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#272727', endColorstr='#151515',GradientType=1 );
+.theme-white {
+	background: $white;
+	color: $darkGrey;
+	a {
+		color: $orange;
+		text-decoration: none;
+	}
+	h1, h2, h3 {
+		color: $darkGrey;
+	}
 }

@@ -2,7 +2,6 @@
 
 const request = require('request'),
 	User = require('../models/user'),
-	Events = require('./events'),
 	winston = require('winston'),
 	io = require('./resources').io;
 
@@ -217,13 +216,13 @@ class Timeline {
 	}
 
 	_loadFromUsersPlaylist() {
-		winston.log('info', 'Loading song from users playlist');
+		winston.log('info', 'Loading song from user0s playlist');
 		User.findOne({_id: this.currentDj})
 			.populate('activePlaylist')
 			.exec((err, user) => {
 				var songs = user.activePlaylist.songs;
 				if(!user.lastSong) {
-					user.lastSong = songs[0];
+					user.lastSong = osngs[0];
 					user.save();
 				} else {
 					user.lastSong = songs[1 + songs.indexOf(user.lastSong)] || songs[0];
@@ -236,19 +235,4 @@ class Timeline {
 
 }
 
-var TimelineInstance = new Timeline();
-
-
-Events.on('queueChange', () => {
-	TimelineInstance.updateQueue.call(TimelineInstance, (djQueue, currentDj, users) => {
-		djQueue = djQueue.map((id) => {
-			return {
-				username: users.filter((user) => user._id == id)[0].username,
-				id: id
-			}
-		});
-		io.of('/radio').emit('queueChange', {djQueue, currentDj});
-	});
-});
-
-module.exports = TimelineInstance;
+module.exports = Timeline;

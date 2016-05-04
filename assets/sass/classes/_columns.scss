@@ -3,7 +3,8 @@
 	@include outer-container;
 
 	max-width: 100%;
-	
+	margin: 20px;
+
 	&.column-restricted {
 		max-width: $pageWidth;
 		@media (max-width: (20 + $pageWidth)) {
@@ -38,6 +39,7 @@
 
 	&1-3 {
 		@include span-columns(4);
+		@include padding(10px);
 		@media #{$tablet} {
 			@include span-columns(12);
 			@include omega(2n);
@@ -47,6 +49,7 @@
 
 	&2-3 {
 		@include span-columns(8);
+		@include padding(10px);
 		@media #{$tablet} {
 			@include span-columns(12);
 			@include omega(2n);
@@ -55,6 +58,7 @@
 
 	&1-4 {
 		@include span-columns(3);
+		@include padding(10px);
 		@media #{$tablet} {
 			@include span-columns(6);
 			@include omega(2n);
@@ -63,6 +67,7 @@
 
 	&3-4 {
 		@include span-columns(9);
+		@include padding(10px);
 		@media #{$tablet} {
 			@include span-columns(12);
 		}

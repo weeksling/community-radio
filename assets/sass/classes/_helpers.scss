@@ -92,6 +92,16 @@ button {
 	}
 }
 
+.vertical-margin {
+	margin: 20px 0;
+	&-top {
+		margin-top: 20px;
+	}
+	&-bottom {
+		margin-bottom: 20px;
+	}
+}
+
 .central-padding {
 	padding: 10% 0;
 	&-small {
@@ -106,3 +116,7 @@ button {
 .force-inline {
 	display: inline !important;
 }
+
+.fill-height {
+	height: 100%;
+}	
