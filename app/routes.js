@@ -22,6 +22,30 @@ module.exports = () => {
 				});
 			}
 		})
+		.get('/legal', (req, res) => {
+			res.render('legal.html', {
+				message: req.flash('message'),
+				user: req.user
+			});
+		})
+		.get('/terms-of-service', (req, res) => {
+			res.render('terms-of-service.html', {
+				message: req.flash('message'),
+				user: req.user
+			});
+		})
+		.get('/about', (req, res) => {
+			res.render('about.html', {
+				message: req.flash('message'),
+				user: req.user
+			});
+		})
+		.get('/contact', (req, res) => {
+			res.render('contact.html', {
+				message: req.flash('message'),
+				user: req.user
+			});
+		})
 		.get('/register', isUnauthenticated, (req, res) => {
 			res.render('register.html', {
 				message: req.flash('message')
